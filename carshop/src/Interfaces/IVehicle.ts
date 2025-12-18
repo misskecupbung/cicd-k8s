@@ -1,6 +1,6 @@
 interface IVehicle {
   id?: string;
-  model: string
+  model: string;
   year: number;
   color: string;
   status?: boolean;

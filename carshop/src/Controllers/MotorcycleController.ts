@@ -18,13 +18,9 @@ class MotorcycleController {
   private InvalidMongoIdError = 'Invalid mongo id';
   private MotorcycleNotFoundError = 'Motorcycle not found';
   
-  private isValidId(
-    id: string,
-  )
-    :boolean {
+  private isValidId(id: string): boolean {
     try {
-      if (new ObjectId(id)
-        .toString() === id) {
+      if (new ObjectId(id).toString() === id) {
         return true;
       }
     } catch (error) {
@@ -36,10 +32,8 @@ class MotorcycleController {
   public async insertOneMotorcycle() {
     const motorcycle = this.req.body;
     try {
-      const newMotorcycle = await 
-      this.service.insertOneMotorcycle(motorcycle);
-      return this.res
-        .status(201).json(newMotorcycle);
+      const newMotorcycle = await this.service.insertOneMotorcycle(motorcycle);
+      return this.res.status(201).json(newMotorcycle);
     } catch (error) {
       this.next(error);
     }
@@ -47,10 +41,8 @@ class MotorcycleController {
 
   public async findAll() {
     try {
-      const motorcycleList = await 
-      this.service.findAll();
-      return this.res
-        .status(200).json(motorcycleList);
+      const motorcycleList = await this.service.findAll();
+      return this.res.status(200).json(motorcycleList);
     } catch (error) {
       this.next(error);
     }
@@ -59,22 +51,18 @@ class MotorcycleController {
   public async findById() {
     const { id } = this.req.params;
     if (!this.isValidId(id)) {
-      return this.res
-        .status(422).json({ 
-          message: this.InvalidMongoIdError,
-        });
+      return this.res.status(422).json({ 
+        message: this.InvalidMongoIdError,
+      });
     }
     try {
-      const motorcycle = await 
-      this.service.findById(id);
+      const motorcycle = await this.service.findById(id);
       if (!motorcycle) {
-        return this.res
-          .status(404).json({
-            message: this.MotorcycleNotFoundError,
-          });
+        return this.res.status(404).json({
+          message: this.MotorcycleNotFoundError,
+        });
       }
-      return this.res
-        .status(200).json(motorcycle);
+      return this.res.status(200).json(motorcycle);
     } catch (error) {
       this.next(error);
     }
@@ -83,23 +71,19 @@ class MotorcycleController {
   public async updateById() {
     const { id } = this.req.params;
     if (!this.isValidId(id)) {
-      return this.res
-        .status(422).json({ 
-          message: this.InvalidMongoIdError,
-        });
+      return this.res.status(422).json({ 
+        message: this.InvalidMongoIdError,
+      });
     }
     try {
       const motorcycle = this.req.body;
-      const updateMotorcycle = await 
-      this.service.updateOne(id, motorcycle);
+      const updateMotorcycle = await this.service.updateOne(id, motorcycle);
       if (!updateMotorcycle) {
-        return this.res
-          .status(404).json({
-            message: this.MotorcycleNotFoundError,
-          });
+        return this.res.status(404).json({
+          message: this.MotorcycleNotFoundError,
+        });
       }
-      return this.res
-        .status(200).json(updateMotorcycle);
+      return this.res.status(200).json(updateMotorcycle);
     } catch (error) {
       this.next(error);
     }
@@ -108,19 +92,16 @@ class MotorcycleController {
   public async removeById() {
     const { id } = this.req.params;
     if (!this.isValidId(id)) {
-      return this.res
-        .status(422).json({
-          message: this.InvalidMongoIdError,
-        });
+      return this.res.status(422).json({
+        message: this.InvalidMongoIdError,
+      });
     }
     try {
-      const removeMotorcycle = await
-      this.service.removeOne(id);
+      const removeMotorcycle = await this.service.removeOne(id);
       if (!removeMotorcycle) {
-        return this.res
-          .status(404).json({
-            message: this.MotorcycleNotFoundError,
-          });
+        return this.res.status(404).json({
+          message: this.MotorcycleNotFoundError,
+        });
       }
       return this.res.sendStatus(204);
     } catch (error) {
@@ -128,4 +109,5 @@ class MotorcycleController {
     }
   }
 }
+
 export default MotorcycleController;
